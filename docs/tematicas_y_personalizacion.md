@@ -1,24 +1,24 @@
-# Guía de Temáticas y Personalización de Palabras
+# Themes and Word Customization Guide
 
-Word Guess Deluxe permite expandir el juego fácilmente añadiendo nuevas palabras y categorías.
+Word Guess Deluxe allows you to easily expand the game by adding new words and categories.
 
-## 📁 Estructura de Archivos
-Las palabras están organizadas en la carpeta `backend/lexicons/`. Cada archivo `.txt` en esta carpeta se convierte automáticamente en una **Temática** dentro del juego.
+## 📁 File Structure
+Words are organized in the `backend/lexicons/` folder. Each `.txt` file in this folder automatically becomes a **Theme** in the game.
 
-### Cómo agregar un nuevo tema
-1. Crea un archivo `.txt` en `backend/lexicons/`.
-2. El nombre del archivo será el nombre del tema (ej. `Deportes.txt`).
-3. Agrega una palabra por línea. El sistema las convertirá automáticamente a mayúsculas y limpiará espacios en blanco.
+### How to add a new theme
+1. Create a `.txt` file in `backend/lexicons/`.
+2. The file name will be the theme name (e.g., `Sports.txt`).
+3. Add one word per line. The system will automatically convert them to uppercase and trim whitespace.
 
-## ⚙️ Cómo funciona el Proceso
-1. **Escaneo Automático**: Al iniciar el backend, el adaptador `FileWordRepository` escanea la carpeta y carga todos los temas en memoria.
-2. **Selección Dinámica**: El frontend consulta el endpoint `/themes` para mostrar los botones de selección al usuario.
-3. **Escalabilidad**: Puedes tener cientos de archivos y miles de palabras sin afectar el rendimiento, ya que solo se elige una al azar por partida.
+## ⚙️ How the Process Works
+1. **Automatic Scanning**: When the backend starts, the `FileWordRepository` adapter scans the folder and loads all themes into memory.
+2. **Dynamic Selection**: The frontend queries the `/themes` endpoint to display selection buttons to the user.
+3. **Scalability**: You can have hundreds of files and thousands of words without affecting performance, as only one is chosen at random per game.
 
-## 💡 Ideas para Temáticas
-- **Películas**: Matrix, Inception, Gladiator.
-- **Comida**: Pizza, Hamburguesa, Sushi.
-- **Programación Avanzada**: Microservicios, Kubernetes, Docker.
+## 💡 Theme Ideas
+- **Movies**: Matrix, Inception, Gladiator.
+- **Food**: Pizza, Burger, Sushi.
+- **Advanced Programming**: Microservices, Kubernetes, Docker.
 
-## 🛠️ Modificación de Reglas
-Si deseas cambiar la dificultad por tema (ej. menos vidas para temas difíciles), puedes modificar el `WordGuessService` para aceptar configuraciones personalizadas basadas en el nombre del tema.
+## 🛠️ Rule Modification
+If you want to change difficulty per theme (e.g., fewer lives for hard themes), you can modify the `WordGuessService` to accept custom configurations based on the theme name.

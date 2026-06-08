@@ -1,11 +1,11 @@
 /**
  * =============================================================================
- * Word Guess Deluxe - Frontend (Adaptador de Usuario)
+ * Word Guess Deluxe - Frontend (User Adapter)
  * =============================================================================
- * Este componente es el punto de entrada de la interfaz de usuario.
- * Se comunica con el Backend (API) para gestionar el estado del juego.
- * Utiliza: React, Tailwind CSS para el diseño, Axios para peticiones HTTP
- * y Canvas Confetti para efectos visuales.
+ * This component is the entry point for the user interface.
+ * It communicates with the Backend (API) to manage game state.
+ * Uses: React, Tailwind CSS for design, Axios for HTTP requests,
+ * and Canvas Confetti for visual effects.
  * =============================================================================
  */
 
@@ -24,10 +24,10 @@ import {
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
-// URL base para la API del Backend
+// Base URL for Backend API
 const API_URL = 'http://localhost:8000'
 
-// Interfaz que coincide con el modelo de dominio del Backend
+// Interface matching the Backend domain model
 interface GameState {
   secret_word: string
   guessed_word: string
@@ -43,7 +43,7 @@ interface GameState {
 }
 
 function App() {
-  // Estado local para manejar la sesión de juego
+  // Local state to manage game session
   const [gameId, setGameId] = useState<string | null>(null)
   const [state, setState] = useState<GameState | null>(null)
   const [themes, setThemes] = useState<string[]>([])
@@ -52,22 +52,22 @@ function App() {
   const [error, setError] = useState<string | null>(null)
   const [showThemeSelector, setShowThemeSelector] = useState(true)
 
-  // Obtener temas disponibles al cargar
+  // Fetch available themes on load
   useEffect(() => {
     const fetchThemes = async () => {
       try {
         const response = await axios.get(`${API_URL}/themes`)
         setThemes(response.data)
       } catch (err) {
-        console.error("Error al cargar temas:", err)
+        console.error("Error loading themes:", err)
       }
     }
     fetchThemes()
   }, [])
 
   /**
-   * Solicita al backend iniciar una nueva partida.
-   * useCallback se usa para memorizar la función y evitar re-renders innecesarios.
+   * Requests the backend to start a new game.
+   * useCallback is used to memoize the function and avoid unnecessary re-renders.
    */
   const startNewGame = useCallback(async (theme?: string) => {
     setLoading(true)
@@ -80,7 +80,7 @@ function App() {
       setGameId(response.data.game_id)
       setState(response.data.state)
     } catch (err) {
-      setError('No se pudo conectar con el servidor backend. Asegúrate de que el backend esté corriendo en el puerto 8000.')
+      setError('Could not connect to the backend server. Make sure the backend is running on port 8000.')
       console.error(err)
     } finally {
       setLoading(false)
@@ -88,10 +88,10 @@ function App() {
   }, [selectedTheme])
 
   /**
-   * Envía una letra al backend para procesar la adivinanza.
+   * Sends a letter to the backend to process the guess.
    */
   const makeGuess = async (letter: string) => {
-    // Validaciones preventivas en el frontend
+    // Preventive frontend validations
     if (!gameId || !state || state.game_over || state.used_letters.includes(letter)) return
 
     try {
@@ -102,7 +102,7 @@ function App() {
       const newState = response.data
       setState(newState)
       
-      // Efecto de confeti si el jugador gana
+      // Confetti effect if player wins
       if (newState.game_over && newState.won) {
         confetti({
           particleCount: 150,
@@ -112,12 +112,12 @@ function App() {
         })
       }
     } catch (err) {
-      console.error('Error al realizar la jugada:', err)
+      console.error('Error making guess:', err)
     }
   }
 
   /**
-   * Solicita una pista (revelar letra) al backend.
+   * Requests a hint (reveal letter) from the backend.
    */
   const useHint = async () => {
     if (!gameId || !state || state.game_over) return
@@ -128,17 +128,17 @@ function App() {
       })
       setState(response.data)
     } catch (err) {
-      console.error('Error al solicitar pista:', err)
+      console.error('Error requesting hint:', err)
     }
   }
 
   /**
-   * Soporte para teclado físico: permite jugar escribiendo directamente.
+   * Support for physical keyboard: allows playing by typing directly.
    */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const key = e.key.toUpperCase()
-      // Solo procesar letras de la A a la Z
+      // Only process letters A to Z
       if (/^[A-Z]$/.test(key)) {
         makeGuess(key)
       } else if (key === '?') {
@@ -150,7 +150,7 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [gameId, state])
 
-  // Vista de error si no hay conexión con el API
+  // Theme selection screen
   if (showThemeSelector) {
     return (
       <div className="min-h-screen bg-[#0f172a] flex flex-col items-center justify-center p-4">
@@ -159,7 +159,7 @@ function App() {
           
           <Gamepad2 className="w-16 h-16 text-[#6366f1] mx-auto mb-6" />
           <h1 className="text-4xl font-black text-white mb-2 tracking-tighter">WORD GUESS <span className="text-[#6366f1]">DELUXE</span></h1>
-          <p className="text-gray-400 mb-10 font-medium">Elige una temática para comenzar tu aventura</p>
+          <p className="text-gray-400 mb-10 font-medium">Choose a theme to start your adventure</p>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
             {themes.map(theme => (
@@ -174,7 +174,7 @@ function App() {
                 <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-150 transition-transform duration-500">
                   <Trophy className="w-24 h-24" />
                 </div>
-                <span className="block text-xs font-black uppercase tracking-[0.2em] text-indigo-400 group-hover:text-indigo-200 mb-1">Temática</span>
+                <span className="block text-xs font-black uppercase tracking-[0.2em] text-indigo-400 group-hover:text-indigo-200 mb-1">Theme</span>
                 <span className="block text-xl font-black text-white">{theme}</span>
               </button>
             ))}
@@ -186,8 +186,8 @@ function App() {
               <div className="absolute -right-4 -bottom-4 opacity-20 group-hover:rotate-12 transition-transform duration-500">
                 <RotateCcw className="w-24 h-24" />
               </div>
-              <span className="block text-xs font-black uppercase tracking-[0.2em] text-pink-100 mb-1">Aleatorio</span>
-              <span className="block text-xl font-black text-white">¡SORPRÉNDEME!</span>
+              <span className="block text-xs font-black uppercase tracking-[0.2em] text-pink-100 mb-1">Random</span>
+              <span className="block text-xl font-black text-white">SURPRISE ME!</span>
             </button>
           </div>
           
@@ -197,18 +197,19 @@ function App() {
     )
   }
 
+  // Error view if API connection fails
   if (error) {
     return (
       <div className="min-h-screen bg-[#0f172a] flex flex-col items-center justify-center p-4">
         <div className="bg-[#1e293b] p-8 rounded-2xl border-2 border-red-500 text-center max-w-md shadow-2xl">
           <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-white mb-2">¡Error de Conexión!</h1>
+          <h1 className="text-2xl font-bold text-white mb-2">Connection Error!</h1>
           <p className="text-gray-400 mb-6">{error}</p>
           <button 
-            onClick={startNewGame}
+            onClick={() => startNewGame()}
             className="bg-[#6366f1] hover:bg-[#4f46e5] text-white px-8 py-3 rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/20"
           >
-            REINTENTAR CONEXIÓN
+            RETRY CONNECTION
           </button>
         </div>
       </div>
@@ -217,7 +218,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#0f172a] text-white font-sans selection:bg-indigo-500/30">
-      {/* Barra Superior / Header */}
+      {/* Top Bar / Header */}
       <header className="max-w-4xl mx-auto pt-8 px-4 flex justify-between items-center">
         <div className="flex items-center gap-3 group">
           <button 
@@ -231,7 +232,7 @@ function App() {
               WORD GUESS <span className="text-[#6366f1]">DELUXE</span>
             </h1>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-black uppercase tracking-widest text-indigo-400">Temática:</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-indigo-400">Theme:</span>
               <span className="text-[10px] font-black uppercase tracking-widest text-white">{state?.theme}</span>
             </div>
           </div>
@@ -248,10 +249,10 @@ function App() {
       <main className="max-w-4xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
-          {/* Columna Izquierda: El Juego */}
+          {/* Left Column: The Game */}
           <div className="lg:col-span-2 space-y-8">
             
-            {/* Display de la Palabra Secreta */}
+            {/* Secret Word Display */}
             <div className="bg-[#1e293b] p-12 rounded-3xl border border-white/5 flex flex-col items-center justify-center shadow-2xl relative overflow-hidden min-h-[300px]">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-pink-500 to-amber-500 opacity-50" />
               
@@ -270,7 +271,7 @@ function App() {
                 ))}
               </div>
 
-              {/* Mensajes de Fin de Juego */}
+              {/* End Game Messages */}
               {state?.game_over && (
                 <div className={`mt-10 px-8 py-4 rounded-2xl font-black text-xl flex items-center gap-3 animate-bounce shadow-xl ${
                   state.won 
@@ -278,19 +279,19 @@ function App() {
                     : 'bg-red-500/20 text-red-400 border border-red-500/30'
                 }`}>
                   {state.won ? (
-                    <><CheckCircle2 className="w-8 h-8" /> ¡VICTORIA MAGISTRAL!</>
+                    <><CheckCircle2 className="w-8 h-8" /> MASTERFUL VICTORY!</>
                   ) : (
-                    <><XCircle className="w-8 h-8" /> ¡FIN DEL JUEGO!</>
+                    <><XCircle className="w-8 h-8" /> GAME OVER!</>
                   )}
                 </div>
               )}
             </div>
 
-            {/* Teclado Virtual Interactivo */}
+            {/* Interactive Virtual Keyboard */}
             <div className="bg-[#1e293b]/50 p-6 rounded-3xl border border-white/5 backdrop-blur-sm">
               <div className="flex items-center gap-2 mb-6 text-gray-400">
                 <Keyboard className="w-4 h-4" />
-                <span className="text-xs font-black uppercase tracking-widest opacity-60">Control Táctil / Teclado</span>
+                <span className="text-xs font-black uppercase tracking-widest opacity-60">Touch Control / Keyboard</span>
               </div>
               <div className="flex flex-wrap justify-center gap-2">
                 {"QWERTYUIOPASDFGHJKLZXCVBNM".split('').map(letter => {
@@ -319,15 +320,15 @@ function App() {
             </div>
           </div>
 
-          {/* Columna Derecha: Estadísticas y Ayudas */}
+          {/* Right Column: Statistics and Hints */}
           <div className="space-y-6">
             
-            {/* Card de Estado y Vidas */}
+            {/* Status and Lives Card */}
             <div className="bg-[#1e293b] p-6 rounded-3xl border border-white/5 space-y-6 shadow-xl">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-[#6366f1]">
                   <Info className="w-5 h-5" />
-                  <h2 className="font-black text-sm uppercase tracking-wider">Partida</h2>
+                  <h2 className="font-black text-sm uppercase tracking-wider">Session</h2>
                 </div>
                 <div className="px-3 py-1 bg-white/5 rounded-full text-[10px] font-mono text-gray-500">
                   {gameId?.slice(0, 8)}
@@ -337,7 +338,7 @@ function App() {
               <div className="space-y-5">
                 <div className="space-y-2">
                   <div className="flex justify-between text-xs font-bold text-gray-400 uppercase tracking-tighter">
-                    <span>Vidas Disponibles</span>
+                    <span>Available Lives</span>
                     <span className={state?.guesses_left && state.guesses_left <= 2 ? 'text-red-500 animate-pulse' : ''}>
                       {state?.guesses_left} / 8
                     </span>
@@ -358,7 +359,7 @@ function App() {
 
                 <div className="p-4 bg-white/5 rounded-2xl border border-white/5 space-y-4">
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-400 font-bold uppercase text-[10px]">Pistas Usadas</span>
+                    <span className="text-gray-400 font-bold uppercase text-[10px]">Hints Used</span>
                     <span className="font-black text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-lg">{state?.hints_used || 0}</span>
                   </div>
                   <button
@@ -367,44 +368,44 @@ function App() {
                     className="w-full py-3 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all disabled:opacity-20 disabled:grayscale"
                   >
                     <Lightbulb className="w-4 h-4" />
-                    REVELAR LETRA (-10 PTS)
+                    REVEAL LETTER (-10 PTS)
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* Card de Estadísticas */}
+            {/* Statistics Card */}
             <div className="bg-[#1e293b] p-6 rounded-3xl border border-white/5 space-y-5 shadow-xl">
               <div className="flex items-center gap-2 text-pink-500">
                 <BarChart3 className="w-5 h-5" />
-                <h2 className="font-black text-sm uppercase tracking-wider">Rendimiento</h2>
+                <h2 className="font-black text-sm uppercase tracking-wider">Performance</h2>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-green-500/5 rounded-2xl border border-green-500/10 text-center">
-                  <div className="text-[10px] text-green-500/60 uppercase font-black mb-1">Aciertos</div>
+                  <div className="text-[10px] text-green-500/60 uppercase font-black mb-1">Correct</div>
                   <div className="text-2xl font-black text-green-400">{state?.correct_guesses || 0}</div>
                 </div>
                 <div className="p-4 bg-red-500/5 rounded-2xl border border-red-500/10 text-center">
-                  <div className="text-[10px] text-red-500/60 uppercase font-black mb-1">Fallos</div>
+                  <div className="text-[10px] text-red-500/60 uppercase font-black mb-1">Wrong</div>
                   <div className="text-2xl font-black text-red-400">{state?.wrong_guesses || 0}</div>
                 </div>
               </div>
             </div>
 
-            {/* Botón de Acción Principal */}
+            {/* Primary Action Button */}
             <button
               onClick={() => setShowThemeSelector(true)}
               className="w-full py-5 bg-[#6366f1] hover:bg-[#4f46e5] text-white rounded-3xl font-black text-xl flex items-center justify-center gap-3 shadow-2xl shadow-indigo-500/40 transition-all hover:scale-[1.02] active:scale-95"
             >
               <RotateCcw className="w-6 h-6" />
-              NUEVO TEMA
+              NEW THEME
             </button>
             
-            {/* Revelación de palabra al perder */}
+            {/* Word revelation on loss */}
             {state?.game_over && !state.won && (
               <div className="p-5 bg-red-500/10 border-2 border-red-500/20 rounded-3xl text-center animate-in fade-in zoom-in duration-500">
-                <div className="text-[10px] text-red-400 uppercase font-black tracking-[0.2em] mb-2 opacity-60">La palabra oculta era</div>
+                <div className="text-[10px] text-red-400 uppercase font-black tracking-[0.2em] mb-2 opacity-60">The hidden word was</div>
                 <div className="text-3xl font-black text-red-500 tracking-[0.3em]">{state.secret_word}</div>
               </div>
             )}

@@ -1,8 +1,8 @@
 # =============================================================================
-# Word Guess Models - Modelos de Dominio
+# Word Guess Models - Domain Models
 # =============================================================================
-# Estos modelos definen el estado y las constantes del juego.
-# Son objetos puros de Python (usando Pydantic para validación).
+# These models define the game state and constants.
+# They are pure Python objects (using Pydantic for validation).
 # =============================================================================
 
 from pydantic import BaseModel
@@ -10,29 +10,29 @@ from typing import List
 
 class GameState(BaseModel):
     """
-    Representa el estado completo de una partida de Word Guess.
-    Esta clase es el 'corazón' de la información en nuestro dominio.
+    Represents the complete state of a Word Guess game session.
+    This class is the 'heart' of the information in our domain.
     """
-    secret_word: str      # La palabra que el jugador debe adivinar
-    guessed_word: str     # Representación con guiones (ej. "P-TH-N")
-    guesses_left: int     # Intentos restantes antes del Game Over
-    used_letters: List[str] # Letras que el jugador ya ha intentado
-    score: int            # Puntaje acumulado en la partida
-    correct_guesses: int  # Contador de letras acertadas
-    wrong_guesses: int    # Contador de letras fallidas
-    hints_used: int       # Cuántas pistas se han solicitado
-    game_over: bool = False # Indica si la partida ha terminado
-    won: bool = False       # Indica si el jugador ganó
-    theme: str = "General"  # Temática de la palabra actual
+    secret_word: str      # The word the player must guess
+    guessed_word: str     # Representation with dashes (e.g., "P-TH-N")
+    guesses_left: int     # Remaining attempts before Game Over
+    used_letters: List[str] # Letters the player has already tried
+    score: int            # Accumulated score in the session
+    correct_guesses: int  # Count of correct letter guesses
+    wrong_guesses: int    # Count of incorrect letter guesses
+    hints_used: int       # Number of hints requested
+    game_over: bool = False # Indicates if the session has ended
+    won: bool = False       # Indicates if the player won
+    theme: str = "General"  # Topic of the current word
 
 class GameConstants:
     """
-    Valores fijos que definen las reglas de puntuación y dificultad.
-    Centralizarlos aquí facilita ajustar el balance del juego.
+    Fixed values that define scoring rules and difficulty.
+    Centralizing them here makes it easy to adjust game balance.
     """
-    INITIAL_GUESSES = 8       # Vidas iniciales
-    HINT_COST = 10            # Costo en puntos por usar una pista
-    CORRECT_POINTS = 10       # Puntos ganados por acierto
-    WRONG_POINTS = -2         # Puntos perdidos por fallo
-    WIN_BONUS = 50            # Bono por adivinar la palabra completa
-    REMAINING_GUESS_BONUS = 5 # Bono por cada vida restante al ganar
+    INITIAL_GUESSES = 8       # Starting lives
+    HINT_COST = 10            # Point cost for using a hint
+    CORRECT_POINTS = 10       # Points earned for a correct guess
+    WRONG_POINTS = -2         # Points lost for an incorrect guess
+    WIN_BONUS = 50            # Bonus for guessing the entire word
+    REMAINING_GUESS_BONUS = 5 # Bonus for each remaining life upon winning

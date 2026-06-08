@@ -1,26 +1,26 @@
-# Arquitectura del Proyecto: Word Guess Deluxe
+# Project Architecture: Word Guess Deluxe
 
-Este proyecto utiliza una **Arquitectura Hexagonal** (también conocida como Puertos y Adaptadores). El objetivo principal es desacoplar la lógica de negocio central de las tecnologías externas.
+This project utilizes **Hexagonal Architecture** (also known as Ports and Adapters). The main goal is to decouple the core business logic from external technologies.
 
-## 🏗️ Cómo está construido
+## 🏗️ How it's Built
 
-### 1. El Núcleo (Dominio)
-Ubicado en `backend/app/domain/`. Es la parte más importante y no tiene dependencias externas.
-- **Modelos (`models.py`)**: Define qué es un juego, su estado y las constantes de puntuación.
-- **Servicios (`services.py`)**: Implementa las reglas del juego (cómo se procesa una letra, cuándo se gana, cómo funcionan las pistas).
+### 1. The Core (Domain)
+Located in `backend/app/domain/`. It is the most important part and has no external dependencies.
+- **Models (`models.py`)**: Defines what a game is, its state, and scoring constants.
+- **Services (`services.py`)**: Implements game rules (how a letter is processed, when a win occurs, how hints work).
 
-### 2. Puertos (Interfaces)
-Ubicados en `backend/app/ports/`. Definen el "contrato" de lo que el sistema necesita para funcionar.
-- **WordRepository**: Define que necesitamos obtener palabras, pero no le importa si vienen de un archivo, una base de datos o una nube.
+### 2. Ports (Interfaces)
+Located in `backend/app/ports/`. They define the "contract" of what the system needs to function.
+- **WordRepository**: Defines that we need to retrieve words, but doesn't care if they come from a file, a database, or an external API.
 
-### 3. Adaptadores (Implementaciones)
-Ubicados en `backend/app/adapters/`. Son los que conectan el núcleo con el mundo real.
-- **Adaptador de Persistencia (`file_repository.py`)**: Implementa el puerto usando el sistema de archivos local (`Lexicon.txt`).
-- **Adaptador de Entrada (API REST en `main.py`)**: Utiliza FastAPI para exponer el juego al frontend.
+### 3. Adapters (Implementations)
+Located in `backend/app/adapters/`. These connect the core with the real world.
+- **Persistence Adapter (`file_repository.py`)**: Implements the port using the local file system (`lexicons/` folder).
+- **Input Adapter (REST API in `main.py`)**: Uses FastAPI to expose the game to the frontend.
 
-## 🔄 Flujo de Datos
-1. El **Frontend** (React) envía una acción (ej. adivinar una letra).
-2. El **Adaptador Web** (FastAPI) recibe la petición y llama al **Servicio de Dominio**.
-3. El **Dominio** procesa la regla de negocio y actualiza el estado.
-4. Si se necesita una palabra nueva, el Dominio usa un **Puerto**, que es ejecutado por el **Adaptador de Archivo**.
-5. El resultado vuelve al Frontend para ser visualizado de forma atractiva.
+## 🔄 Data Flow
+1. The **Frontend** (React) sends an action (e.g., guessing a letter).
+2. The **Web Adapter** (FastAPI) receives the request and calls the **Domain Service**.
+3. The **Domain** processes the business rule and updates the state.
+4. If a new word is needed, the Domain uses a **Port**, which is executed by the **File Adapter**.
+5. The result returns to the Frontend to be visually displayed.

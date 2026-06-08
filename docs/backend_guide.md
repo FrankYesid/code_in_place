@@ -1,27 +1,28 @@
-# Requerimientos y Guía del Backend
+# Backend Requirements and Guide
 
-El backend está diseñado para ser ligero, rápido y fácil de extender gracias al uso de FastAPI y Arquitectura Hexagonal.
+The backend is designed to be lightweight, fast, and easy to extend using FastAPI and Hexagonal Architecture.
 
-## 📋 Requerimientos Técnicos
-- **Lenguaje**: Python 3.9 o superior.
+## 📋 Technical Requirements
+- **Language**: Python 3.9 or higher.
 - **Framework**: FastAPI (v0.111.0).
-- **Servidor ASGI**: Uvicorn (v0.30.1).
-- **Validación**: Pydantic (v2.7.4) para modelos de datos.
+- **ASGI Server**: Uvicorn (v0.30.1).
+- **Validation**: Pydantic (v2.7.4) for data models.
 
-## 🛠️ Instalación y Configuración
-1. Crear un entorno virtual: `python -m venv venv`
-2. Activar entorno:
+## 🛠️ Installation and Setup
+1. Create a virtual environment: `python -m venv venv`
+2. Activate the environment:
    - Windows: `venv\Scripts\activate`
    - Mac/Linux: `source venv/bin/activate`
-3. Instalar dependencias: `pip install -r requirements.txt`
+3. Install dependencies: `pip install -r requirements.txt`
 
-## 📡 Endpoints de la API
-- `POST /game/new`: Crea una nueva sesión de juego única.
-- `GET /game/{game_id}`: Recupera el estado de una partida activa.
-- `POST /game/guess`: Procesa una letra intentada. Requiere `game_id` y `letter`.
-- `POST /game/hint`: Revela una letra a cambio de puntos. Requiere `game_id`.
+## 📡 API Endpoints
+- `GET /themes`: Retrieves the list of available themes from the `.txt` files.
+- `POST /game/new`: Creates a new unique game session. Accepts an optional `theme`.
+- `GET /game/{game_id}`: Retrieves the state of an active game.
+- `POST /game/guess`: Processes a guessed letter. Requires `game_id` and `letter`.
+- `POST /game/hint`: Reveals a letter in exchange for points. Requires `game_id`.
 
-## 📁 Archivos Clave
-- `Lexicon.txt`: Base de datos de palabras en texto plano.
-- `requirements.txt`: Lista de librerías necesarias.
-- `app/main.py`: Punto de entrada del servidor y configuración de CORS.
+## 📁 Key Files
+- `lexicons/`: Folder containing thematic word lists.
+- `requirements.txt`: List of required libraries.
+- `app/main.py`: Server entry point and CORS configuration.

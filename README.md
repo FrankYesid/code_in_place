@@ -1,37 +1,37 @@
-# Word Guess Deluxe - Proyecto Final Code in Place 2026
+# Word Guess Deluxe - Final Project Code in Place 2026
 
-¡Bienvenido a **Word Guess Deluxe**! Una versión evolucionada, escalable y visualmente impactante del clásico juego de adivinanza de palabras. Este proyecto ha sido diseñado siguiendo los estándares más altos de ingeniería de software, utilizando **Arquitectura Hexagonal** y tecnologías modernas de desarrollo web.
+Welcome to **Word Guess Deluxe**! An evolved, scalable, and visually stunning version of the classic word guessing game. This project has been designed following high software engineering standards, utilizing **Hexagonal Architecture** and modern web development technologies.
 
-## 🌟 Lo Nuevo: Sistema de Temáticas Dinámico
-A diferencia de las versiones tradicionales, este proyecto incluye un sistema de **Léxicos Masivos por Temáticas**:
-- **Categorías Reales**: Tecnología, Animales, Países y más.
-- **Carga Automática**: Solo agrega un archivo `.txt` en la carpeta `lexicons` y el juego lo reconocerá al instante.
-- **Selector Interactivo**: Una pantalla de inicio dedicada para elegir tu desafío.
+## 🌟 What's New: Dynamic Theme System
+Unlike traditional versions, this project includes a **Massive Lexicon System by Themes**:
+- **Real Categories**: Technology, Animals, Countries, and more.
+- **Auto-Loading**: Just add a `.txt` file to the `lexicons` folder, and the game will recognize it instantly.
+- **Interactive Selector**: A dedicated home screen to choose your challenge.
 
-## 🏗️ Estructura del Proyecto
+## 🏗️ Project Structure
 
-El proyecto se divide en dos grandes ecosistemas:
+The project is divided into two major ecosystems:
 
-### 1. Backend (`/backend`) - El Cerebro
-Implementado con **FastAPI** y siguiendo la **Arquitectura Hexagonal**:
-- **Dominio**: Reglas de negocio puras (Puntuación, Lógica de Juego).
-- **Puertos**: Interfaces para el acceso a datos.
-- **Adaptadores**: Implementaciones reales (API REST y Persistencia en Archivos).
-- **Lexicons**: Carpeta con archivos de palabras organizados por temas.
+### 1. Backend (`/backend`) - The Brain
+Implemented with **FastAPI** and following **Hexagonal Architecture** principles:
+- **Domain**: Pure business rules (Scoring, Game Logic).
+- **Ports**: Interfaces for data access.
+- **Adapters**: Real implementations (REST API and File Persistence).
+- **Lexicons**: Folder with word files organized by topics.
 
-### 2. Frontend (`/frontend`) - La Experiencia
-Una interfaz "Deluxe" construida con:
-- **React 18 + TypeScript**: Lógica de componentes robusta.
-- **Tailwind CSS**: Estilo oscuro con acentos neón y diseño responsivo.
-- **Canvas Confetti**: Animaciones de celebración para victorias.
-- **Soporte de Teclado**: Juega usando tu teclado físico o el virtual en pantalla.
+### 2. Frontend (`/frontend`) - The Experience
+A "Deluxe" interface built with:
+- **React 18 + TypeScript**: Robust component logic.
+- **Tailwind CSS**: Dark style with neon accents and responsive design.
+- **Canvas Confetti**: Celebration animations for victories.
+- **Keyboard Support**: Play using your physical keyboard or the on-screen virtual one.
 
-## 🛠️ Requisitos
+## 🛠️ Requirements
 - **Python 3.9+**
 - **Node.js 18+**
-- **npm** (instalado con Node.js)
+- **npm** (installed with Node.js)
 
-## 📖 Guía Rápida de Inicio
+## 📖 Quick Start Guide
 
 ### Backend
 ```bash
@@ -39,7 +39,7 @@ cd backend
 pip install -r requirements.txt
 python -m app.main
 ```
-> La API corre en `http://localhost:8000`. Puedes ver la documentación interactiva en `/docs`.
+> The API runs at `http://localhost:8000`. You can see the interactive documentation at `/docs`.
 
 ### Frontend
 ```bash
@@ -47,13 +47,13 @@ cd frontend
 npm install
 npm run dev
 ```
-> Accede a `http://localhost:5173` para empezar a jugar.
+> Access `http://localhost:5173` to start playing.
 
-## 🎯 Características "Deluxe"
-- **Puntuación Inteligente**: Gana puntos por aciertos y bonos por vidas restantes.
-- **Sistema de Pistas**: Revela letras estratégicamente (costo de 10 pts).
-- **Estadísticas Detalladas**: Visualiza tu rendimiento en cada partida.
-- **Navegación Fluida**: Cambia de temática en cualquier momento desde el botón de la Gamepad.
+## 🎯 "Deluxe" Features
+- **Smart Scoring**: Earn points for correct guesses and bonuses for remaining lives.
+- **Hint System**: Reveal letters strategically (cost: 10 pts).
+- **Detailed Statistics**: View your performance for each game.
+- **Fluid Navigation**: Change themes at any time using the Gamepad button.
 
 ---
-*Este proyecto es el resultado final del curso Code in Place 2026, demostrando la integración de lógica de programación avanzada y diseño de interfaces modernas.*
+*This project is the final result of the Code in Place 2026 course, demonstrating the integration of advanced programming logic and modern interface design.*

@@ -1,9 +1,9 @@
 # =============================================================================
-# Repositories Ports - Puertos de Salida
+# Repositories Ports - Output Ports
 # =============================================================================
-# En Arquitectura Hexagonal, un Puerto es una interfaz que define una 
-# capacidad necesaria para el sistema, pero sin decir cómo se implementa.
-# Aquí definimos cómo queremos obtener las palabras del juego.
+# In Hexagonal Architecture, a Port is an interface that defines a 
+# capability needed by the system, without saying how it's implemented.
+# Here we define how we want to get the game's words.
 # =============================================================================
 
 from abc import ABC, abstractmethod
@@ -11,19 +11,19 @@ from typing import List
 
 class WordRepository(ABC):
     """
-    Puerto para el acceso a las palabras del juego.
-    Soporta múltiples temáticas.
+    Port for game word access.
+    Supports multiple themes.
     """
     
     @abstractmethod
     def get_themes(self) -> List[str]:
-        """Devuelve la lista de temáticas disponibles."""
+        """Returns the list of available themes."""
         pass
 
     @abstractmethod
     def get_random_word(self, theme: str = None) -> str:
         """
-        Elige una palabra al azar. Si se proporciona una temática,
-        la palabra pertenecerá a esa temática.
+        Chooses a random word. If a theme is provided,
+        the word will belong to that theme.
         """
         pass

@@ -1,24 +1,24 @@
-# Requerimientos y Guía del Frontend
+# Frontend Requirements and Guide
 
-El frontend es una interfaz moderna de alta fidelidad ("Deluxe") construida para ofrecer la mejor experiencia de usuario.
+The frontend is a modern high-fidelity ("Deluxe") interface built to provide the best user experience.
 
-## 📋 Requerimientos Técnicos
-- **Entorno**: Node.js v18+ y npm.
-- **Framework**: React v18 (con Hooks para gestión de estado).
-- **Lenguaje**: TypeScript para tipado seguro.
-- **Estilos**: Tailwind CSS v3 para diseño atómico y responsivo.
-- **Iconos**: Lucide React.
-- **Efectos**: Canvas Confetti.
+## 📋 Technical Requirements
+- **Environment**: Node.js v18+ and npm.
+- **Framework**: React v18 (using Hooks for state management).
+- **Language**: TypeScript for type safety.
+- **Styles**: Tailwind CSS v3 for atomic and responsive design.
+- **Icons**: Lucide React.
+- **Effects**: Canvas Confetti.
 
-## 🎨 Estilo Visual
-- **Paleta de Colores**: Fondo oscuro (`#0f172a`), superficies (`#1e293b`), y acentos vibrantes en Indigo, Rosa y Ámbar.
-- **UX**: Soporte para teclado físico (event listeners globales) y teclado virtual táctil.
-- **Feedback**: Animaciones de victoria, vibración visual de letras y barras de vida dinámicas.
+## 🎨 Visual Style
+- **Color Palette**: Dark background (`#0f172a`), surfaces (`#1e293b`), and vibrant Indigo, Pink, and Amber accents.
+- **UX**: Global event listeners for physical keyboard support and a touch-friendly virtual keyboard.
+- **Feedback**: Victory animations, letter visual shakes, and dynamic health bars.
 
-## 🛠️ Instalación y Configuración
-1. Entrar a la carpeta: `cd frontend`
-2. Instalar módulos: `npm install`
-3. Ejecutar desarrollo: `npm run dev`
+## 🛠️ Installation and Setup
+1. Enter the folder: `cd frontend`
+2. Install modules: `npm install`
+3. Run development mode: `npm run dev`
 
-## 🔌 Conexión con Backend
-La URL base está configurada en `App.tsx` como `http://localhost:8000`. Utiliza **Axios** para manejar las promesas y peticiones asíncronas de forma limpia.
+## 🔌 Backend Connection
+The base URL is configured in `App.tsx` as `http://localhost:8000`. It uses **Axios** to handle promises and asynchronous HTTP requests cleanly.

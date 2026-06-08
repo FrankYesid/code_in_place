@@ -1,9 +1,9 @@
 # =============================================================================
-# Word Guess Service - Lógica de Negocio
+# Word Guess Service - Business Logic
 # =============================================================================
-# Este servicio contiene las reglas de negocio del juego.
-# En Arquitectura Hexagonal, el Dominio no sabe nada de APIs ni de Archivos.
-# Solo sabe CÓMO se juega al Word Guess.
+# This service contains the game's business rules.
+# In Hexagonal Architecture, the Domain knows nothing about APIs or Files.
+# It only knows HOW to play Word Guess.
 # =============================================================================
 
 import random
@@ -11,12 +11,12 @@ from .models import GameState, GameConstants
 
 class WordGuessService:
     """
-    Servicio de dominio que contiene la lógica de negocio del juego.
+    Domain service containing the game's business logic.
     """
 
     def create_new_game(self, secret_word: str, theme: str = "General") -> GameState:
         """
-        Inicializa un nuevo estado de juego a partir de una palabra secreta y su temática.
+        Initializes a new game state from a secret word and its theme.
         """
         return GameState(
             secret_word=secret_word.upper(),
@@ -32,49 +32,49 @@ class WordGuessService:
 
     def make_guess(self, state: GameState, letter: str) -> GameState:
         """
-        Procesa el intento de un jugador al elegir una letra.
-        Aplica las reglas de puntuación y actualiza el estado.
+        Processes a player's attempt when choosing a letter.
+        Applies scoring rules and updates the state.
         """
         letter = letter.upper()
 
-        # Evitar procesar si el juego terminó o la letra ya se usó
+        # Avoid processing if game ended or letter was already used
         if state.game_over or letter in state.used_letters or len(letter) != 1:
             return state
 
         state.used_letters.append(letter)
 
         if letter in state.secret_word:
-            # Lógica para acierto
+            # Success logic
             state.guessed_word = self._update_word(state.secret_word, state.guessed_word, letter)
             state.correct_guesses += 1
             state.score += GameConstants.CORRECT_POINTS
         else:
-            # Lógica para fallo
+            # Failure logic
             state.guesses_left -= 1
             state.wrong_guesses += 1
             state.score += GameConstants.WRONG_POINTS
 
-        # Actualizar estado de victoria/derrota
+        # Update win/loss status
         self._check_game_status(state)
         
         return state
 
     def use_hint(self, state: GameState) -> GameState:
         """
-        Revela una letra que el jugador aún no ha adivinado.
-        Cuesta puntos pero ayuda a avanzar.
+        Reveals a letter the player hasn't guessed yet.
+        Costs points but helps progress.
         """
         if state.game_over:
             return state
 
-        # Buscar índices de letras que aún no han sido reveladas
+        # Find indices of letters not yet revealed
         hidden_indices = [i for i, char in enumerate(state.guessed_word) if char == "-"]
         
         if hidden_indices:
             idx = random.choice(hidden_indices)
             hint_letter = state.secret_word[idx]
             
-            # Revelar la letra en todas sus posiciones
+            # Reveal the letter in all its positions
             state.guessed_word = self._update_word(state.secret_word, state.guessed_word, hint_letter)
             state.hints_used += 1
             state.score -= GameConstants.HINT_COST
@@ -85,7 +85,7 @@ class WordGuessService:
 
     def _update_word(self, secret: str, guessed: str, letter: str) -> str:
         """
-        Método interno para actualizar la representación visual de la palabra.
+        Internal method to update the visual representation of the word.
         """
         new_word = list(guessed)
         for i, char in enumerate(secret):
@@ -95,12 +95,12 @@ class WordGuessService:
 
     def _check_game_status(self, state: GameState):
         """
-        Determina si el jugador ha ganado o se ha quedado sin vidas.
+        Determines if the player has won or run out of lives.
         """
         if state.guessed_word == state.secret_word:
             state.game_over = True
             state.won = True
-            # Bonificaciones finales
+            # Final bonuses
             state.score += GameConstants.WIN_BONUS
             state.score += state.guesses_left * GameConstants.REMAINING_GUESS_BONUS
         elif state.guesses_left <= 0:
